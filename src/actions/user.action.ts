@@ -56,7 +56,7 @@ export async function getUserByClerkId(clerkId: string) {
 
 export async function getDbUserId() {
   const { userId: clerkId } = await auth();
-  if (!clerkId) throw new Error('Unauthorized');
+  if (!clerkId) return null;
 
   const user = await getUserByClerkId(clerkId);
 
@@ -109,6 +109,8 @@ export async function getRandomUsers() {
 export async function toggleFollow(targetUserId: string) {
   try {
     const userId = await getDbUserId();
+
+    if (!userId) return;
 
     if (userId === targetUserId) throw new Error('You cannot follow yourself');
 
